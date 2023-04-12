@@ -1,0 +1,10 @@
+---
+extends: default
+
+rules:
+  line-length:
+    ignore: |
+      resources/
+  indentation:
+    ignore: |
+      resources/
