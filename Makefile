@@ -10,6 +10,7 @@ POLICIES_DIR  := $(PWD)/policies
 
 $(RESOURCES_DIR)/%/: $(SOURCES_DIR)/%/*
 	mkdir -p $@
+	rm -rf $@*
 	kustomize build $(dir $^) --output $@
 
 .PHONY: dark
