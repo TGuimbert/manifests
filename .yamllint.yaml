@@ -5,6 +5,11 @@ rules:
   line-length:
     ignore: |
       resources/
+      policies/
   indentation:
     ignore: |
       resources/
+      policies/
+  new-line-at-end-of-file:
+    ignore: |
+      policies/
