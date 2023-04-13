@@ -51,6 +51,9 @@ spec:
             memory: 30Mi
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - all
       securityContext:
         runAsNonRoot: true
       serviceAccountName: dark-operator
