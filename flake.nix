@@ -24,6 +24,7 @@
                   packages = with pkgs; [
                     kyverno
                     kustomize
+                    fluxcd
                     gnumake
                   ];
 
