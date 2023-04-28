@@ -46,4 +46,4 @@ patchesStrategicMerge:
                   drop:
                     - all
                     - CAP_NET_RAW
-                # readOnlyRootFilesystem: true
+                readOnlyRootFilesystem: true
