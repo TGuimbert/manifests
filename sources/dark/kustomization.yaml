@@ -10,6 +10,11 @@ resources:
   - https://github.com/K-Phoen/dark/config/rbac
   - https://github.com/K-Phoen/dark/config/operator
 
+images:
+  - name: kphoen/dark
+    newName: docker.io/kphoen/dark
+    newTag: 0.10.14
+
 patchesStrategicMerge:
   - |-
     apiVersion: apps/v1
@@ -40,3 +45,5 @@ patchesStrategicMerge:
                 capabilities:
                   drop:
                     - all
+                    - CAP_NET_RAW
+                readOnlyRootFilesystem: true

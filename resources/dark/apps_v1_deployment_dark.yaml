@@ -28,7 +28,7 @@ spec:
         env:
         - name: GRAFANA_HOST
           value: http://grafana.monitoring.svc.cluster.local
-        image: kphoen/dark:latest
+        image: docker.io/kphoen/dark:0.10.14
         livenessProbe:
           httpGet:
             path: /healthz
@@ -54,6 +54,8 @@ spec:
           capabilities:
             drop:
             - all
+            - CAP_NET_RAW
+          readOnlyRootFilesystem: true
       securityContext:
         runAsNonRoot: true
       serviceAccountName: dark-operator
