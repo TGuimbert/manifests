@@ -55,6 +55,7 @@ spec:
             drop:
             - all
             - CAP_NET_RAW
+          readOnlyRootFilesystem: true
       securityContext:
         runAsNonRoot: true
       serviceAccountName: dark-operator
