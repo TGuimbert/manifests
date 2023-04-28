@@ -9,5 +9,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v20
-      - run: nix develop
-      - run: make test
+      - run: nix develop --command make test
