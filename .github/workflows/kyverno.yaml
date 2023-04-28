@@ -12,7 +12,9 @@ jobs:
         id: cache-nix-store
         uses: actions/cache@v3
         with:
-          path: /nix/store
+          path: /nix/store/*
           key: ${{ runner.os }}-nix-store
-      - uses: cachix/install-nix-action@v20
-      - run: nix develop --command make test
+      - name: Install Nix
+        uses: cachix/install-nix-action@v20
+      - name: Run kyverno tests
+        run: nix develop --command make test
