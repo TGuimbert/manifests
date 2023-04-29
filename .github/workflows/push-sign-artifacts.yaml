@@ -11,7 +11,7 @@ permissions:
   id-token: write    # needed for keyless signing
 
 env:
-  OCI_REPO: "oci://ghcr.io/TGuimbert/manifests/dark"
+  OCI_REPO: "oci://ghcr.io/tguimbert/manifests/dark"
 
 jobs:
   kubernetes:
