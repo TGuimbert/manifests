@@ -43,4 +43,4 @@ jobs:
         env:
           COSIGN_EXPERIMENTAL: 1
         run: |
-          cosign sign ${{ env.oci_repo}}@${{ steps.push.outputs.digest }}
+          cosign sign --yes ${{ env.oci_repo}}@${{ steps.push.outputs.digest }}
