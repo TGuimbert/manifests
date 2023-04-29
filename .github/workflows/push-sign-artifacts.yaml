@@ -32,7 +32,7 @@ jobs:
       - name: Push and sign manifests
         run: |
           flux push artifact \
-          "$OCI_REPO":${{ github.ref_name }} \
+          "$OCI_REPO":${{ github.sha }} \
           --path="./resources/dark/" \
           --source="$(git config --get remote.origin.url)" \
           --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)"
@@ -40,4 +40,4 @@ jobs:
         env:
           COSIGN_EXPERIMENTAL: 1
         run: |
-          cosign sign "$OCI_REPO":${{ github.ref_name }}
+          cosign sign "$OCI_REPO":${{ github.sha }}
