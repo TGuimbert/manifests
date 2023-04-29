@@ -17,4 +17,4 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v20
       - name: Run kyverno tests
-        run: nix develop --store ~/nix --command make test
+        run: nix develop --quiet --store ~/nix --command make test
