@@ -11,7 +11,7 @@ permissions:
   id-token: write    # needed for keyless signing
 
 env:
-  OCI_REPO: "oci://ghcr.io/tguimbert/manifests/dark"
+  oci_repo: "oci://ghcr.io/tguimbert/manifests/dark"
 
 jobs:
   kubernetes:
@@ -30,14 +30,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push and sign manifests
+        id: push
         run: |
-          flux push artifact \
-          "$OCI_REPO":${{ github.sha }} \
-          --path="./resources/dark/" \
-          --source="$(git config --get remote.origin.url)" \
-          --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)"
+          echo digest="$(flux push artifact \
+          ${{ env.oci_repo }}:${{ github.ref_name }} \
+          --path='./resources/dark/' \
+          --source=${{ github.repositoryUrl }} \
+          --revision='${{ github.ref_name }}@sha1:${{ github.sha }}' | \
+          jq -r '. | .digest')" >> "$GITHUB_OUTPUT"
       - name: Sign manifests in GHCR with Cosign
         env:
           COSIGN_EXPERIMENTAL: 1
         run: |
-          cosign sign "$OCI_REPO":${{ github.sha }}
+          cosign sign ${{ env.oci_repo}}:${{ steps.push.outputs.digest }}
