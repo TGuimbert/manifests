@@ -36,7 +36,8 @@ jobs:
           ${{ env.oci_repo }}:${{ github.ref_name }} \
           --path='./resources/dark/' \
           --source=${{ github.repositoryUrl }} \
-          --revision='${{ github.ref_name }}@sha1:${{ github.sha }}' | \
+          --revision='${{ github.ref_name }}@sha1:${{ github.sha }}' \
+          --output json | \
           jq -r '. | .digest')" >> "$GITHUB_OUTPUT"
       - name: Sign manifests in GHCR with Cosign
         env:
