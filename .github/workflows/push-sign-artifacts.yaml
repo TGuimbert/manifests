@@ -11,7 +11,7 @@ permissions:
   id-token: write    # needed for keyless signing
 
 env:
-  oci_repo: "oci://ghcr.io/tguimbert/manifests/dark"
+  oci_repo: "ghcr.io/tguimbert/manifests/dark"
 
 jobs:
   kubernetes:
@@ -33,7 +33,7 @@ jobs:
         id: push
         run: |
           echo digest="$(flux push artifact \
-          ${{ env.oci_repo }}:${{ github.ref_name }} \
+          oci://${{ env.oci_repo }}:${{ github.ref_name }} \
           --path='./resources/dark/' \
           --source=${{ github.repositoryUrl }} \
           --revision='${{ github.ref_name }}@sha1:${{ github.sha }}' \
