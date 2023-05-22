@@ -3,8 +3,6 @@ name: build
 
 on:
   push:
-    tags:
-      - '*'
 
 permissions:
   packages: write    # needed for ghcr.io access
@@ -33,6 +31,7 @@ jobs:
           --store ~/nix \
           --command make test >> "$GITHUB_STEP_SUMMARY"
   push:
+    if: github.ref == 'refs/tags/*'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
