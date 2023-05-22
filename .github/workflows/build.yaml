@@ -1,10 +1,10 @@
 ---
-name: push-sign-artifact
+name: build
 
 on:
   push:
-    branches:
-      - 'main'
+    tags:
+      - '*'
 
 permissions:
   packages: write    # needed for ghcr.io access
@@ -14,7 +14,25 @@ env:
   oci_repo: "ghcr.io/tguimbert/manifests/dark"
 
 jobs:
-  kubernetes:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache Nix Store
+        id: cache-nix-store
+        uses: actions/cache@v3
+        with:
+          path: ~/nix
+          key: ${{ runner.os }}-nix-store
+      - name: Install Nix
+        uses: cachix/install-nix-action@v20
+      - name: Run kyverno tests
+        run: |
+          nix develop \
+          --quiet \
+          --store ~/nix \
+          --command make test >> "$GITHUB_STEP_SUMMARY"
+  push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,12 +47,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Push and sign manifests
+      - name: Push manifests to GHCR
         id: push
         run: |
-          echo digest="$(flux push artifact \
+          echo digest="$(kustomize build ./source/dark | flux push artifact \
           oci://${{ env.oci_repo }}:${{ github.ref_name }} \
-          --path='./resources/dark/' \
+          --path= - \
           --source=${{ github.repositoryUrl }} \
           --revision='${{ github.ref_name }}@sha1:${{ github.sha }}' \
           --output json | \

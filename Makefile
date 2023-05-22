@@ -24,8 +24,10 @@ all: dark
 ########
 
 .PHONY: test-%
+directory = $(subst test-,,$@)
 test-%:
-	kyverno apply $(POLICIES_DIR) -r $(RESOURCES_DIR)/$(subst test-,,$@)
+	@echo "Testing kyverno policies on $(directory)"
+	@kustomize build sources/$(directory) | kyverno apply $(POLICIES_DIR) -r /dev/stdin
 
 .PHONY: test-all
 test-all: test-dark
