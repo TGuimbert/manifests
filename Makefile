@@ -1,23 +1,7 @@
-.DEFAULT_GOAL: all
+.DEFAULT_GOAL: test
 
 SOURCES_DIR   := $(PWD)/sources
-RESOURCES_DIR := $(PWD)/resources
 POLICIES_DIR  := $(PWD)/policies
-
-#########
-# BUILD #
-#########
-
-$(RESOURCES_DIR)/%/: $(SOURCES_DIR)/%/*
-	mkdir -p $@
-	rm -rf $@*
-	kustomize build $(dir $^) --output $@
-
-.PHONY: dark
-dark: $(RESOURCES_DIR)/dark/
-
-.PHONY: all
-all: dark
 
 ########
 # TEST #
