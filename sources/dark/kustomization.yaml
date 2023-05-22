@@ -6,9 +6,9 @@ commonLabels:
   app.kubernetes.io/name: dark
 
 resources:
-  - https://github.com/K-Phoen/dark/config/crd
-  - https://github.com/K-Phoen/dark/config/rbac
-  - https://github.com/K-Phoen/dark/config/operator
+  - https://github.com/K-Phoen/dark//config/crd/?ref=v0.10.14
+  - https://github.com/K-Phoen/dark//config/rbac/?ref=v0.10.14
+  - https://github.com/K-Phoen/dark//config/operator/?ref=v0.10.14
 
 images:
   - name: kphoen/dark
