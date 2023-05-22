@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    app: dark
-    app.kubernetes.io/name: dark
-  name: dark
