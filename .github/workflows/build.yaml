@@ -24,12 +24,23 @@ jobs:
           key: ${{ runner.os }}-nix-store
       - name: Install Nix
         uses: cachix/install-nix-action@v20
-      - name: Run kyverno tests
+      - name: Create folder for manifests
+        run: mkdir manifests
+      - name: Build manifests
         run: |
-          nix develop \
-          --quiet \
-          --store ~/nix \
-          --command make test >> "$GITHUB_STEP_SUMMARY"
+          nix develop --quiet --store ~/nix \
+          --command kustomize build ./sources/dark/ --output manifests/
+      - name: Run full kyverno tests
+        run: |
+          nix develop --quiet --store ~/nix \
+          --command kyverno apply policies/ --resource manifests/ \
+          --policy-report
+      - name: Run kyverno tests for summary
+        run: |
+          nix develop --quiet --store ~/nix \
+          --command kyverno apply policies/ --resource manifests/ \
+          2> /dev/null >> "$GITHUB_STEP_SUMMARY"
+
   push:
     if: github.ref == 'refs/tags/*'
     runs-on: ubuntu-latest
